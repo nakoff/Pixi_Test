@@ -1,9 +1,6 @@
-import { Application, Loader, LoaderResource, Resource, Sprite } from 'pixi.js'
-import dragonBones from 'pixi5-dragonbones';
+import { Application, } from 'pixi.js'
 import { SceneManager, Scenes } from './scripts/core/scene-manager';
-import * as PIXI from "pixi.js";
-
-// window.PIXI = PIXI;
+import { ResourceManager } from './scripts/core/resource-manager';
 
 const app = new Application({
     view: document.getElementById("scene") as HTMLCanvasElement,
@@ -17,23 +14,9 @@ const app = new Application({
 document.addEventListener("DOMContentLoaded", (e) => {
     document.body.appendChild(app.view);
 
-    Loader.shared
-        .add("skeleton", "assets/bunny/mi_bunny_ske.json")
-        .add("texture_json", "assets/bunny/mi_bunny_tex.json")
-        .add("texture_png", "assets/bunny/mi_bunny_tex.png")
-        .load(onLoaded);
-
+    const resourceManager = new ResourceManager();
+    resourceManager.init(app, () => onStart());
 })
-
-function onLoaded(loader: Loader, res: any): void {
-
-    const factory = dragonBones.PixiFactory.factory;
-    factory.parseDragonBonesData(res.skeleton.data);
-    factory.parseTextureAtlasData(res.texture_json.data, res.texture_png.texture);
-    console.log("RES: ",factory);
-
-    onStart();
-}
 
 function onStart(): void {
     const sceneManager = new SceneManager();

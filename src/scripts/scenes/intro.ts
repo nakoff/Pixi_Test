@@ -1,17 +1,14 @@
 import { BaseScene } from '../core/base-scene';
-import { Loader, Sprite } from 'pixi.js';
 import { SceneManager, Scenes } from '../core/scene-manager';
+import { Animations, Bunny } from '../entities/bunny';
 
 export class SceneIntro extends BaseScene {
-    private sceneTime = 5;
+    private sceneTime = 3;
     private _timer = 0;
 
     onStart(): void {
-
-    }
-
-    onLoaded(loader: Loader): void {
-
+        const bunny = new Bunny(this);
+        bunny.anim = Animations.FLY_IDLE;
     }
 
     onUpdate(dt: number): void {
