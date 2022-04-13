@@ -1,0 +1,92 @@
+{"frames": {
+
+"coin_score_plate.png":
+{
+	"frame": {"x":0,"y":50,"w":192,"h":66},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":66},
+	"sourceSize": {"w":192,"h":66}
+},
+"collect_coin_icon.png":
+{
+	"frame": {"x":0,"y":139,"w":100,"h":90},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":90},
+	"sourceSize": {"w":100,"h":90}
+},
+"collect_distance_icon.png":
+{
+	"frame": {"x":0,"y":245,"w":121,"h":119},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":121,"h":119},
+	"sourceSize": {"w":121,"h":119}
+},
+"header_info_plate.png":
+{
+	"frame": {"x":192,"y":50,"w":584,"h":89},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":584,"h":89},
+	"sourceSize": {"w":584,"h":89}
+},
+"highleader_scores_plate.png":
+{
+	"frame": {"x":592,"y":0,"w":180,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":180,"h":50},
+	"sourceSize": {"w":180,"h":50}
+},
+"midleader_name_plate.png":
+{
+	"frame": {"x":0,"y":0,"w":427,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":427,"h":41},
+	"sourceSize": {"w":427,"h":41}
+},
+"midleader_scores_plate.png":
+{
+	"frame": {"x":427,"y":0,"w":165,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
+	"sourceSize": {"w":165,"h":41}
+},
+"places.png":
+{
+	"frame": {"x":278,"y":245,"w":500,"h":234},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":234},
+	"sourceSize": {"w":500,"h":234}
+},
+"star.png":
+{
+	"frame": {"x":121,"y":245,"w":157,"h":150},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":157,"h":150},
+	"sourceSize": {"w":157,"h":150}
+},
+"user_name_bar.png":
+{
+	"frame": {"x":100,"y":139,"w":604,"h":106},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":604,"h":106},
+	"sourceSize": {"w":604,"h":106}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "places.png",
+	"format": "RGBA8888",
+	"size": {"w":778,"h":479},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5f697fa2653d1ef22a93a6a0bf2b40b1:05d9a5dfcf0bf9123b1313485d18885a:34943342454f3462aef2aec374c17c7e$"
+}
+}
