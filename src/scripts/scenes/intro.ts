@@ -3,7 +3,7 @@ import { SceneManager, Scenes } from '../core/scene-manager';
 import { Animations, Bunny } from '../entities/bunny';
 
 export class SceneIntro extends BaseScene {
-    private sceneTime = 3;
+    private sceneTime = 1;
     private _timer = 0;
 
     onStart(): void {

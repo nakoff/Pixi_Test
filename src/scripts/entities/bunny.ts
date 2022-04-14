@@ -1,6 +1,6 @@
-import { DragonSprites, ResourceManager } from "../core/resource-manager";
+import { ResourceManager, Sprites } from '../core/resource-manager';
 import dragonBones from 'pixi5-dragonbones';
-import { Container, DisplayObject, Sprite } from 'pixi.js';
+import { Container, Sprite } from 'pixi.js';
 
 export enum Animations {
     FLY_IDLE = "bunny_fly_idle",
@@ -18,7 +18,7 @@ export class Bunny {
 
     public constructor(scene: Container) {
         const rm = new ResourceManager();
-        const dSprite = rm.createDragonSprite(DragonSprites.BUNNY);
+        const dSprite = rm.createDragonSprite(Sprites.BUNNY);
         if (!dSprite) return;
 
         this._armature = dSprite;
