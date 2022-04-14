@@ -1,13 +1,16 @@
 import { BaseScene } from '../core/base-scene';
-import { ResourceManager, Sprites } from '../core/resource-manager';
+import { MenuPres } from '../menu/pres';
+import { MenuView } from '../menu/view';
 
 export class SceneMainMenu extends BaseScene {
+    private _menu: MenuPres;
 
     onStart(): void {
-        const rm = new ResourceManager();
-        const sp = rm.createSprite(Sprites.PLATE);
-        sp.scale.set(0.5);
-        sp.anchor.set(0.5);
-        this.addChild(sp);
+        const view = new MenuView(this);
+        this._menu = new MenuPres(view);
+    }
+
+    onUpdate(dt: number): void {
+        this._menu.onUpdate(dt);
     }
 }

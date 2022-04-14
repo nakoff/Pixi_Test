@@ -1,4 +1,4 @@
-import { ResourceManager, Sprites } from '../core/resource-manager';
+import { ResourceManager, UITextures, DragonTextures } from '../core/resource-manager';
 import dragonBones from 'pixi5-dragonbones';
 import { Container, Sprite } from 'pixi.js';
 
@@ -18,7 +18,7 @@ export class Bunny {
 
     public constructor(scene: Container) {
         const rm = new ResourceManager();
-        const dSprite = rm.createDragonSprite(Sprites.BUNNY);
+        const dSprite = rm.createDragonSprite(DragonTextures.BUNNY);
         if (!dSprite) return;
 
         this._armature = dSprite;
