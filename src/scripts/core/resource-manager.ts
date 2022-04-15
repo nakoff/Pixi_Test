@@ -52,6 +52,11 @@ export enum DragonTextures {
     BUNNY = 'mi_bunny',
 }
 
+export enum GameTextures {
+    STOPPER = 'stopper_idle',
+    STOPPER_CRUSH = 'stopper_crush',
+}
+
 export class ResourceManager {
     private static _app: Application;
     private static _finished: () => void;
@@ -73,6 +78,8 @@ export class ResourceManager {
             .add(ATLASES.buttons_atlas, "assets/ui/buttons.json")
             .add(UITextures.RAYS, "assets/ui/rays.png")
             .add(UITextures.PLATE, "assets/ui/info_plate_big.png")
+            .add(GameTextures.STOPPER, "assets/stopper_idle.png")
+            .add(GameTextures.STOPPER_CRUSH, "assets/stopper_crush.png")
             .load(this.loadFinished);
         
         Loader.shared

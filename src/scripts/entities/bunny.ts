@@ -15,12 +15,14 @@ export class Bunny {
     private _armature: dragonBones.PixiArmatureDisplay;
     private _curAnim: Animations;
     private _sprite: Sprite;
+    private _isAnimLoop: boolean;
 
     public constructor(scene: Container) {
         const rm = new ResourceManager();
         const dSprite = rm.createDragonSprite(DragonTextures.BUNNY);
         if (!dSprite) return;
 
+        dSprite.addDBEventListener(dragonBones.EventObject.LOOP_COMPLETE, this.onAnimLoopComplete, this);
         this._armature = dSprite;
         this._sprite = this._armature as unknown as Sprite;
 
@@ -28,7 +30,6 @@ export class Bunny {
         this.sprite.scale.set(0.5);
 
         scene.addChild(this.sprite);
-        this.anim = Animations.FLY_LAND_SLIDE;
     }
 
     public get position(): {x: number, y: number} {
@@ -43,12 +44,20 @@ export class Bunny {
         return this._sprite;
     }
 
-    public set anim(value: Animations) {
-        this._curAnim = value;
-        this._armature.animation.play(value);
-    }
-
     public get anim(): Animations {
         return this._curAnim;
+    }
+
+    public playAnim(anim: Animations, loop: boolean): void {
+        this._curAnim = anim;
+        this._isAnimLoop = loop;
+        this._armature.animation.play(anim);
+    }
+
+    private onAnimLoopComplete(e: dragonBones.EventObject): void {
+        if (!this._isAnimLoop || !this._sprite.parent) {
+            e.animationState.stop();
+            e.animationState.currentTime = 1;
+        }
     }
 }

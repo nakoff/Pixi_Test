@@ -8,7 +8,7 @@ export class SceneIntro extends BaseScene {
 
     onStart(): void {
         const bunny = new Bunny(this);
-        bunny.anim = Animations.FLY_IDLE;
+        bunny.playAnim(Animations.FLY_IDLE, true);
     }
 
     onUpdate(dt: number): void {
