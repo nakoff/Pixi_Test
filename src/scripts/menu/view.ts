@@ -2,12 +2,15 @@ import { IMenuView, BUTTONS } from './iview';
 import { Container, Sprite, Text, Texture } from 'pixi.js';
 import { BtnTextures, UITextures } from '../core/resource-manager';
 import { Event } from '../core/event';
+import { Button } from '../core/button';
 
 export class MenuView implements IMenuView {
     public clickEvent = new Event<BUTTONS>();
 
     private _scene: Container;
     private _plate: Sprite;
+    private _txtHeader: Text;
+    private _rays: Sprite | null;
 
     public constructor(scene: Container) {
         this._scene = scene;
@@ -16,15 +19,94 @@ export class MenuView implements IMenuView {
         this._plate.scale.set(0.5);
         this._plate.anchor.set(0.5);
         scene.addChild(this._plate);
+
+        //Header
+        const header = Sprite.from('header_info_plate.png');
+        header.anchor.set(0.5);
+        header.scale.set(0.5);
+        header.y -= 205;
+        scene.addChild(header);
+
+        //Text header
+        const txt_header = new Text("HEADER");
+        txt_header.scale.set(2);
+        txt_header.anchor.set(0.5);
+        header.addChild(txt_header);
+        this._txtHeader = txt_header;
+    }
+
+    public onUpdate(dt: number): void {
+        if (this._rays) {
+            this._rays.rotation += dt * 0.01;
+        }
     }
 
     public showMain(): void {
-        this.main(this._plate);
+        if (this._rays) {
+            this._rays.destroy();
+            this._rays = null;
+        }
+
+        this._plate.removeChildren();
+        this._txtHeader.text = 'You records:'
+
+        const score = new Text("Best Score:");
+        score.y -= 250;
+        score.scale.set(1.9);
+        score.anchor.set(0.5);
+        this._plate.addChild(score);
+
+        //Name input
+        const input = Sprite.from('user_name_bar.png');
+        input.anchor.set(0.5);
+        input.y += 100;
+        this._plate.addChild(input);
+
+        //Login
+        let t_active = Texture.from(BtnTextures.BTN_LOGIN_ACTIVE);
+        let t_hover = Texture.from(BtnTextures.BTN_LOGIN_HOVER);
+        let t_press = Texture.from(BtnTextures.BTN_LOGIN_PRESS);
+        let btn = new Button(t_active);
+        btn.hoverTexture = t_hover;
+        btn.pressTexture = t_press;
+        btn.y -= 50;
+        this._plate.addChild(btn);
+
+        //Cup
+        t_active = Texture.from(BtnTextures.BTN_CUP_ACTIVE);
+        t_hover = Texture.from(BtnTextures.BTN_CUP_HOVER);
+        t_press = Texture.from(BtnTextures.BTN_CUP_PRESS);
+        btn = new Button(t_active);
+        btn.hoverTexture = t_hover;
+        btn.pressTexture = t_press;
+        btn.onReleaseddEvent.on((b) => this.onButtonPressed(BUTTONS.CUP));
+        btn.y += 300;
+        btn.x -= 180;
+        this._plate.addChild(btn);
+
+        //Play
+        t_active = Texture.from(BtnTextures.BTN_PLAY_ACTIVE);
+        t_hover = Texture.from(BtnTextures.BTN_PLAY_HOVER);
+        t_press = Texture.from(BtnTextures.BTN_PLAY_PRESS);
+        btn = new Button(t_active);
+        btn.hoverTexture = t_hover;
+        btn.pressTexture = t_press;
+        btn.onReleaseddEvent.on((b) => this.onButtonPressed(BUTTONS.PLAY));
+        btn.y += 300;
+        btn.x += 180;
+        this._plate.addChild(btn);
     }
 
     public showLeaders(leaders: Map<string, number>): void {
-        this.leaders(this._plate);
+        if (this._rays) {
+            this._rays.destroy();
+            this._rays = null;
+        }
 
+        this._plate.removeChildren();
+        this._txtHeader.text = 'Leaderbord:'
+
+        //Leaders
         let k = 0;
         const yOffset = -200;
         for (const [name, score] of leaders) {
@@ -54,113 +136,52 @@ export class MenuView implements IMenuView {
             txtScore.anchor.set(0.5);
             score_plate.addChild(txtScore);
         }
-    }
 
-    private main(parent: Container): void {
-        parent.removeChildren();
-
-        const score = new Text("Best Score:");
-        score.y -= 250;
-        score.scale.set(1.9);
-        score.anchor.set(0.5);
-        parent.addChild(score);
-
-        //Header
-        const header = Sprite.from('header_info_plate.png');
-        header.anchor.set(0.5);
-        header.y -= 405;
-        parent.addChild(header);
-
-        const txt_header = new Text("YOU RECORDS:")
-        txt_header.anchor.set(0.5);
-        header.addChild(txt_header);
-
-        //Name input
-        const input = Sprite.from('user_name_bar.png');
-        input.anchor.set(0.5);
-        // input.scale.set(0.5);
-        input.y += 100;
-        parent.addChild(input);
-
-        //Login
-        let btn = Sprite.from(BtnTextures.BTN_LOGIN_ACTIVE)
-        let t_active = Texture.from(BtnTextures.BTN_LOGIN_ACTIVE);
-        let t_hover = Texture.from(BtnTextures.BTN_LOGIN_HOVER);
-        let t_press = Texture.from(BtnTextures.BTN_LOGIN_PRESS);
-        this.createButton(btn, t_active, t_hover, t_press);
-        btn.y -= 50;
-        parent.addChild(btn);
-
-        //Cup
-        btn = Sprite.from(BtnTextures.BTN_CUP_ACTIVE)
-        t_active = Texture.from(BtnTextures.BTN_CUP_ACTIVE);
-        t_hover = Texture.from(BtnTextures.BTN_CUP_HOVER);
-        t_press = Texture.from(BtnTextures.BTN_CUP_PRESS);
-        this.createButton(btn, t_active, t_hover, t_press, BUTTONS.CUP);
-        btn.y += 300;
-        btn.x -= 180;
-        parent.addChild(btn);
-
-        //Play
-        btn = Sprite.from(BtnTextures.BTN_PLAY_ACTIVE)
-        t_active = Texture.from(BtnTextures.BTN_PLAY_ACTIVE);
-        t_hover = Texture.from(BtnTextures.BTN_PLAY_HOVER);
-        t_press = Texture.from(BtnTextures.BTN_PLAY_PRESS);
-        this.createButton(btn, t_active, t_hover, t_press, BUTTONS.PLAY);
-        btn.y += 300;
-        btn.x += 180;
-        parent.addChild(btn);
-    }
-
-    private leaders(parent: Container): void {
-        parent.removeChildren();
-
-        //Header
-        const header = Sprite.from('header_info_plate.png');
-        header.anchor.set(0.5);
-        header.y -= 405;
-        parent.addChild(header);
-
-        const txt_header = new Text("LEADERBOARD:")
-        txt_header.anchor.set(0.5);
-        header.addChild(txt_header);
-
-        //Play
-        const btn = Sprite.from(BtnTextures.BTN_OK_ACTIVE)
+        //Ok
         const t_active = Texture.from(BtnTextures.BTN_OK_ACTIVE);
         const t_hover = Texture.from(BtnTextures.BTN_OK_HOVER);
         const t_press = Texture.from(BtnTextures.BTN_OK_PRESS);
-        this.createButton(btn, t_active, t_hover, t_press, BUTTONS.OK);
+        const btn = new Button(t_active);
+        btn.hoverTexture = t_hover;
+        btn.pressTexture = t_press;
+        btn.onReleaseddEvent.on((b) => this.onButtonPressed(BUTTONS.OK));
         btn.y += 350;
-        parent.addChild(btn);
+        this._plate.addChild(btn);
     }
 
-    private createButton(btn: Sprite, active: Texture, hover: Texture, press: Texture, type?: BUTTONS): void {
-        btn.anchor.set(0.5);
-        btn.buttonMode = true;
-        btn.interactive = true;
+    public showRecord(score: number, dist: number): void {
+        this._plate.removeChildren();
+        this._txtHeader.text = 'New Record:'
 
-        btn.on('pointerdown', () => this.onBtnDown(btn, press))
-            .on('pointerup', () => this.onBtnUp(btn, active, type))
-            .on('pointerover', () => this.onBtnOver(btn, hover))
-            .on('pointerout', () => this.onBtnOut(btn, active));
+        //Rays
+        const rays = Sprite.from(UITextures.RAYS);
+        rays.anchor.set(0.5);
+        rays.scale.set(0.5);
+        this._scene.addChild(rays);
+        this._scene.setChildIndex(rays, 0);
+        this._rays = rays;
+
+        //Text Score
+        const txt_score = new Text(score.toString());
+        txt_score.y -= 250;
+        txt_score.scale.set(3.9);
+        txt_score.anchor.set(0.5);
+        this._plate.addChild(txt_score);
+
+        //Ok
+        // const btn = Sprite.from(BtnTextures.BTN_OK_ACTIVE)
+        const t_active = Texture.from(BtnTextures.BTN_OK_ACTIVE);
+        const t_hover = Texture.from(BtnTextures.BTN_OK_HOVER);
+        const t_press = Texture.from(BtnTextures.BTN_OK_PRESS);
+        const btn = new Button(t_active);
+        btn.hoverTexture = t_hover;
+        btn.pressTexture = t_press;
+        btn.onReleaseddEvent.on((b) => this.onButtonPressed(BUTTONS.OK));
+        btn.y += 350;
+        this._plate.addChild(btn);
     }
 
-    private onBtnDown(btn: Sprite, press: Texture): void {
-        btn.texture = press;
-    }
-
-    private onBtnUp(btn: Sprite, up: Texture, type?: BUTTONS): void {
-        btn.texture = up;
-        if (type)
-            this.clickEvent.trigger(type);
-    }
-
-    private onBtnOver(btn: Sprite, over: Texture): void {
-        btn.texture = over;
-    }
-
-    private onBtnOut(btn: Sprite, active: Texture): void {
-        btn.texture = active;
+    private onButtonPressed(btn: BUTTONS): void {
+        this.clickEvent.trigger(btn);
     }
 }
