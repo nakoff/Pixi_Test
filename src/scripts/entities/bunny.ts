@@ -31,6 +31,14 @@ export class Bunny {
         this.anim = Animations.FLY_LAND_SLIDE;
     }
 
+    public get position(): {x: number, y: number} {
+        return {x: this.sprite.x, y: this.sprite.y};
+    }
+
+    public set position(val: {x: number, y: number}) {
+        this.sprite.position.set(val.x, val.y);
+    }
+
     public get sprite(): Sprite {
         return this._sprite;
     }
