@@ -11,6 +11,7 @@ export class MenuView implements IMenuView {
     private _plate: Sprite;
     private _txtHeader: Text;
     private _rays: Sprite | null;
+    private _stars = new Array<Sprite>();
 
     public constructor(scene: Container) {
         this._scene = scene;
@@ -35,9 +36,17 @@ export class MenuView implements IMenuView {
         this._txtHeader = txt_header;
     }
 
+    private timer = 0;
     public onUpdate(dt: number): void {
+        this.timer++;
+
         if (this._rays) {
             this._rays.rotation += dt * 0.01;
+        }
+
+        const rot = Math.cos(this.timer * 0.3) * 0.05;
+        for (const star of this._stars) {
+            star.rotation += rot;
         }
     }
 
@@ -162,11 +171,18 @@ export class MenuView implements IMenuView {
         this._rays = rays;
 
         //Text Score
-        const txt_score = new Text(score.toString());
+        const txt_score = new Text("SCORE: "+score.toString());
         txt_score.y -= 250;
         txt_score.scale.set(3.9);
         txt_score.anchor.set(0.5);
         this._plate.addChild(txt_score);
+
+        //Text Dist
+        const txt_dist = new Text("DISTANCE: "+dist.toString());
+        // txt_dist.y -= 150;
+        txt_dist.scale.set(3.0);
+        txt_dist.anchor.set(0.5);
+        this._plate.addChild(txt_dist);
 
         //Ok
         // const btn = Sprite.from(BtnTextures.BTN_OK_ACTIVE)
@@ -179,9 +195,32 @@ export class MenuView implements IMenuView {
         btn.onReleaseddEvent.on((b) => this.onButtonPressed(BUTTONS.OK));
         btn.y += 350;
         this._plate.addChild(btn);
+
+        this.createStars();
     }
 
     private onButtonPressed(btn: BUTTONS): void {
         this.clickEvent.trigger(btn);
+    }
+
+    private createStars(): void {
+        const rx = 500;
+        const ry = 250;
+        
+        const points = new Array<{x:number, y:number}>(
+            {x: rx, y: -ry}, {x: -rx, y: -ry},
+            {x: rx+20, y: 0}, {x: -(rx+20), y: 0},
+            {x: rx, y: ry}, {x: -rx, y: ry},
+        )
+
+        for (const pos of points) {
+            const sp = Sprite.from('star.png');
+            sp.anchor.set(0.5);
+            sp.x = pos.x;
+            sp.y = pos.y;
+            sp.rotation = Math.random()*360;
+            this._plate.addChild(sp);
+            this._stars.push(sp);
+        }
     }
 }
