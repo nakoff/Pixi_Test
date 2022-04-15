@@ -26,8 +26,8 @@ module.exports = {
                     context: 'src/'
                 },
                 {
-                    from: 'assets/*',
-                    context: 'src/'
+                    from: 'src/assets/',
+                    to: 'assets/'
                 }
             ]
         }),
